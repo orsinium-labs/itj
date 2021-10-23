@@ -1,8 +1,8 @@
-defmodule ItjTest do
+defmodule ITJTest do
   use ExUnit.Case
-  doctest Itj
+  doctest ITJ
 
   test "greets the world" do
-    assert Itj.hello() == :world
+    assert ITJ.hello() == :world
   end
 end

@@ -1,4 +1,4 @@
-defmodule Itj.MixProject do
+defmodule ITJ.MixProject do
   use Mix.Project
 
   def project do
@@ -15,7 +15,7 @@ defmodule Itj.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Itj.Application, []}
+      mod: {ITJ.Application, []}
     ]
   end
 

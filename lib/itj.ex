@@ -1,6 +1,6 @@
-defmodule Itj do
+defmodule ITJ do
   @moduledoc """
-  Documentation for `Itj`.
+  Documentation for `ITJ`.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule Itj do
 
   ## Examples
 
-      iex> Itj.hello()
+      iex> ITJ.hello()
       :world
 
   """
