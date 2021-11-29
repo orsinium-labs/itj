@@ -9,8 +9,14 @@ defmodule Mix.Tasks.Itj.Add do
 
   def run(args) do
     Mix.Task.run("app.start")
+    ensure_db()
     {:ok, offers} = args |> hd |> ITJ.Recruitee.add_offers()
     count = map_size(offers)
     IO.puts("Inserted #{count} offers")
+  end
+
+  defp ensure_db() do
+    db_path = Path.absname("storage.db")
+    if not File.exists?(db_path), do: Mix.Task.run("ecto.migrate")
   end
 end
