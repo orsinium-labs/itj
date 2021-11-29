@@ -15,5 +15,6 @@ defmodule ITJ.Offer do
     |> Ecto.Changeset.validate_required([:title, :url])
     |> Ecto.Changeset.validate_format(:url, ~r"^https://[a-z0-9_\.\-]+/.+")
     |> Ecto.Changeset.unique_constraint(:url)
+    |> Ecto.Changeset.validate_length(:country_code, is: 2)
   end
 end

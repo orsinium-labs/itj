@@ -1,22 +1,37 @@
 defmodule ITJ.Recruitee do
+  def add_offers(base_url) when is_bitstring(base_url) do
+    case download_offers(base_url) do
+      {:ok, offers} ->
+        add_offers(offers)
+
+      {:error, err} ->
+        {:error, err}
+    end
+  end
+
   def add_offers([offer | offers]) do
     add_offer(offer)
     add_offers(offers)
   end
 
   def add_offers([]) do
-    true
+    {:ok, true}
   end
 
   def add_offer(offer) when is_map(offer) do
-    true
-    # Memento.Query.write(%ITJ.Storage.Offer{
-    #   title: offer["title"],
-    #   country_code: offer["country_code"],
-    #   city: offer["city"],
-    #   url: offer["careers_url"],
-    #   remote: offer["remote"]
-    # })
+    changes =
+      ITJ.Offer.changeset(
+        %ITJ.Offer{},
+        %{
+          title: offer["title"],
+          country_code: offer["country_code"],
+          city: offer["city"],
+          url: offer["careers_url"],
+          remote: offer["remote"]
+        }
+      )
+
+    ITJ.Repo.insert(changes)
   end
 
   def download_offers(base_url) when is_bitstring(base_url) do

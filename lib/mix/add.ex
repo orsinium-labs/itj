@@ -8,7 +8,8 @@ defmodule Mix.Tasks.Itj.Add do
   """
 
   def run(args) do
-    {:ok, offers} = args |> hd |> ITJ.Recruitee.download_offers()
+    Mix.Task.run("app.start")
+    {:ok, offers} = args |> hd |> ITJ.Recruitee.add_offers()
     offers |> inspect() |> IO.puts()
   end
 end
