@@ -9,16 +9,21 @@ defmodule ITJ.Recruitee do
     end
   end
 
-  def add_offers([offer | offers]) do
-    add_offer(offer)
-    add_offers(offers)
+  def add_offers(offers) when is_list(offers) do
+    multi = Ecto.Multi.new()
+    add_offers(multi, offers)
   end
 
-  def add_offers([]) do
-    {:ok, true}
+  def add_offers(multi, [offer | offers]) do
+    multi = add_offer(multi, offer)
+    add_offers(multi, offers)
   end
 
-  def add_offer(offer) when is_map(offer) do
+  def add_offers(multi, []) do
+    ITJ.Repo.transaction(multi)
+  end
+
+  def add_offer(multi, offer) when is_map(offer) do
     changes =
       ITJ.Offer.changeset(
         %ITJ.Offer{},
@@ -31,7 +36,7 @@ defmodule ITJ.Recruitee do
         }
       )
 
-    ITJ.Repo.insert(changes)
+    Ecto.Multi.insert(multi, {:offers, offer["careers_url"]}, changes)
   end
 
   def download_offers(base_url) when is_bitstring(base_url) do
