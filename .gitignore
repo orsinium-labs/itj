@@ -12,3 +12,4 @@ erl_crash.dump
 *.ez
 itj-*.tar
 /*.db
+/*.db-*
