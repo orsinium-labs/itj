@@ -10,6 +10,7 @@ defmodule ITJ.Application do
     children = [
       # Starts a worker by calling: ITJ.Worker.start_link(arg)
       # {ITJ.Worker, arg}
+      {ITJ.Repo, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

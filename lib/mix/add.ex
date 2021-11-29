@@ -1,5 +1,6 @@
 defmodule Mix.Tasks.Itj.Add do
   use Mix.Task
+  @impl Mix.Task
   @shortdoc "Add a new board"
   @moduledoc """
     Download offers from the given domain
