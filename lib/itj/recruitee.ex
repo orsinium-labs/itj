@@ -10,49 +10,47 @@ defmodule ITJ.Recruitee do
   end
 
   def add_offers(offers) when is_list(offers) do
+    case add_company(offers) do
+      {:ok, company} -> add_offers(company, offers)
+      {:error, err} -> {:error, err}
+      nil -> {:ok, %{}}
+    end
+  end
+
+  def add_offers(company, offers) do
     multi = Ecto.Multi.new()
-    multi = add_company(multi, offers)
-    add_offers(multi, offers)
-  end
-
-  @spec add_offers(Ecto.Multi.t(), [map]) :: map
-  def add_offers(multi, [offer | offers]) do
-    multi = add_offer(multi, offer)
-    add_offers(multi, offers)
-  end
-
-  def add_offers(multi, []) do
+    multi = Enum.reduce(offers, multi, &add_offer(&2, &1, company))
     ITJ.Repo.transaction(multi)
   end
 
-  @spec add_offer(Ecto.Multi.t(), map) :: Ecto.Multi.t()
-  def add_offer(multi, offer) when is_map(offer) do
+  def add_offer(multi, offer, company) when is_map(offer) do
     new = %{
       title: offer["title"],
       country_code: offer["country_code"],
       city: offer["city"],
       url: offer["careers_url"],
-      remote: offer["remote"]
+      remote: offer["remote"],
+      company_id: company.id
     }
 
     ITJ.Offer.add(multi, new)
   end
 
-  def add_company(multi, [offer | _]) do
-    add_company(multi, offer)
+  def add_company([offer | _]) do
+    add_company(offer)
   end
 
-  def add_company(multi, []) do
-    multi
+  def add_company([]) do
+    nil
   end
 
-  def add_company(multi, offer) when is_map(offer) do
+  def add_company(offer) when is_map(offer) do
     new = %{
       title: offer["company_name"],
       domain: URI.parse(offer["careers_url"]).host
     }
 
-    ITJ.Company.add(multi, new)
+    ITJ.Company.add(new)
   end
 
   def download_offers(base_url) when is_bitstring(base_url) do
