@@ -78,12 +78,9 @@ defmodule ITJ.Recruitee do
 
   https://docs.recruitee.com/reference/offers
   """
-  def download_offers(base_url) when is_bitstring(base_url) do
-    base_url |> URI.parse() |> download_offers
-  end
-
-  def download_offers(base_url) when is_struct(base_url, URI) do
-    host = base_url.host || base_url.path
+  def download_offers(base_url) do
+    # TODO: handle nil
+    host = base_url |> extract_domain
     url = "https://#{host}/api/offers/"
     HTTPoison.start()
 
@@ -96,6 +93,22 @@ defmodule ITJ.Recruitee do
 
       {:error, err} ->
         {:error, err}
+    end
+  end
+
+  defp extract_domain(url) do
+    cond do
+      String.starts_with?(url, "https://") ->
+        URI.parse(url).host
+
+      String.starts_with?(url, "http://") ->
+        URI.parse(url).host
+
+      String.match?(url, ~r"^[a-z0-9_\.\-]+\.recruitee\.com") ->
+        url
+
+      true ->
+        nil
     end
   end
 
