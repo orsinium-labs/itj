@@ -10,7 +10,7 @@ defmodule Mix.Tasks.Itj.Add do
   def run(args) do
     Mix.Task.run("app.start")
     ensure_db()
-    {:ok, offers} = args |> hd |> ITJ.Recruitee.add_offers()
+    {:ok, offers} = args |> hd |> ITJ.Recruitee.sync_offers()
     count = map_size(offers)
     IO.puts("Inserted #{count} rows")
   end
