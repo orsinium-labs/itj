@@ -12,7 +12,7 @@ defmodule Mix.Tasks.Itj.Add do
     ensure_db()
     {:ok, offers} = args |> hd |> ITJ.Recruitee.add_offers()
     count = map_size(offers)
-    IO.puts("Inserted #{count} offers")
+    IO.puts("Inserted #{count} rows")
   end
 
   defp ensure_db() do

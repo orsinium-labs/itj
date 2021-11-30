@@ -11,6 +11,7 @@ defmodule ITJ.Recruitee do
 
   def add_offers(offers) when is_list(offers) do
     multi = Ecto.Multi.new()
+    multi = add_company(multi, offers)
     add_offers(multi, offers)
   end
 
@@ -35,6 +36,23 @@ defmodule ITJ.Recruitee do
     }
 
     ITJ.Offer.add(multi, new)
+  end
+
+  def add_company(multi, [offer | _]) do
+    add_company(multi, offer)
+  end
+
+  def add_company(multi, []) do
+    multi
+  end
+
+  def add_company(multi, offer) when is_map(offer) do
+    new = %{
+      title: offer["company_name"],
+      domain: URI.parse(offer["careers_url"]).host
+    }
+
+    ITJ.Company.add(multi, new)
   end
 
   def download_offers(base_url) when is_bitstring(base_url) do
