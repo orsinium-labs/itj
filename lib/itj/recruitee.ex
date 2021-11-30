@@ -14,6 +14,7 @@ defmodule ITJ.Recruitee do
     add_offers(multi, offers)
   end
 
+  @spec add_offers(Ecto.Multi.t(), [map]) :: map
   def add_offers(multi, [offer | offers]) do
     multi = add_offer(multi, offer)
     add_offers(multi, offers)
@@ -23,20 +24,17 @@ defmodule ITJ.Recruitee do
     ITJ.Repo.transaction(multi)
   end
 
+  @spec add_offer(Ecto.Multi.t(), map) :: Ecto.Multi.t()
   def add_offer(multi, offer) when is_map(offer) do
-    changes =
-      ITJ.Offer.changeset(
-        %ITJ.Offer{},
-        %{
-          title: offer["title"],
-          country_code: offer["country_code"],
-          city: offer["city"],
-          url: offer["careers_url"],
-          remote: offer["remote"]
-        }
-      )
+    new = %{
+      title: offer["title"],
+      country_code: offer["country_code"],
+      city: offer["city"],
+      url: offer["careers_url"],
+      remote: offer["remote"]
+    }
 
-    Ecto.Multi.insert(multi, {:offers, offer["careers_url"]}, changes)
+    ITJ.Offer.add(multi, new)
   end
 
   def download_offers(base_url) when is_bitstring(base_url) do
