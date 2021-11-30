@@ -79,9 +79,17 @@ defmodule ITJ.Recruitee do
   https://docs.recruitee.com/reference/offers
   """
   def download_offers(base_url) do
-    # TODO: handle nil
-    host = base_url |> extract_domain
-    url = "https://#{host}/api/offers/"
+    domain = extract_domain(base_url)
+
+    if String.match?(domain, ~r"^[a-z0-9_\.\-]+\.recruitee\.com") do
+      request_offers(domain)
+    else
+      {:error, "Invalid domain name"}
+    end
+  end
+
+  defp request_offers(domain) do
+    url = "https://#{domain}/api/offers/"
     HTTPoison.start()
 
     case HTTPoison.get(url) do
@@ -104,11 +112,8 @@ defmodule ITJ.Recruitee do
       String.starts_with?(url, "http://") ->
         URI.parse(url).host
 
-      String.match?(url, ~r"^[a-z0-9_\.\-]+\.recruitee\.com") ->
-        url
-
       true ->
-        nil
+        url
     end
   end
 
