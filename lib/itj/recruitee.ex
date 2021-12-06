@@ -86,7 +86,8 @@ defmodule ITJ.Recruitee do
     domain = extract_domain(base_url)
 
     if String.match?(domain, ~r"^[a-z0-9_\.\-]+\.recruitee\.com") do
-      request_offers(domain)
+      offers = request_offers(domain)
+      {:ok, offers}
     else
       {:error, "Invalid domain name"}
     end
@@ -94,17 +95,9 @@ defmodule ITJ.Recruitee do
 
   defp request_offers(domain) do
     url = "https://#{domain}/api/offers/"
-
-    case HTTPoison.get(url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        parse_offers(body)
-
-      {:ok, %HTTPoison.Response{status_code: code}} ->
-        {:error, "Unexpected status code: #{code}"}
-
-      {:error, err} ->
-        {:error, err}
-    end
+    %HTTPoison.Response{status_code: 200, body: body} = HTTPoison.get!(url)
+    %{"offers" => offers} = Jason.decode!(body)
+    offers
   end
 
   defp extract_domain(url) do
@@ -117,17 +110,6 @@ defmodule ITJ.Recruitee do
 
       true ->
         url
-    end
-  end
-
-  def parse_offers(body) when is_binary(body) do
-    case(Jason.decode(body)) do
-      {:ok, content} ->
-        %{"offers" => offers} = content
-        {:ok, offers}
-
-      {:error, err} ->
-        {:error, err}
     end
   end
 
@@ -152,13 +134,7 @@ defmodule ITJ.Recruitee do
   Extract links to the company resources and store them in storage.
   """
   def add_links(base_url) when is_bitstring(base_url) do
-    case download_links(base_url) do
-      {:ok, links} ->
-        add_links(links)
-
-      {:error, err} ->
-        {:error, err}
-    end
+    base_url |> download_links |> add_links
   end
 
   def add_links(links) when is_list(links) do
@@ -176,25 +152,12 @@ defmodule ITJ.Recruitee do
     domain = extract_domain(base_url)
     url = "https://#{domain}/"
 
-    case HTTPoison.get(url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        {:ok, doc} = Floki.parse_document(body)
-        parse_links(doc)
+    %HTTPoison.Response{status_code: 200, body: body} = HTTPoison.get!(url)
 
-      {:ok, %HTTPoison.Response{status_code: code}} ->
-        {:error, "Unexpected status code: #{code}"}
-
-      {:error, err} ->
-        {:error, err}
-    end
-  end
-
-  def parse_links(doc) when is_list(doc) do
-    links =
-      Floki.find(doc, "a[rel~=noopener]")
-      |> Enum.flat_map(fn el -> Floki.attribute(el, "href") end)
-      |> Enum.filter(fn link -> link != "https://recruitee.com" end)
-
-    {:ok, links}
+    body
+    |> Floki.parse_document!()
+    |> Floki.find("a[rel~=noopener]")
+    |> Enum.flat_map(fn el -> Floki.attribute(el, "href") end)
+    |> Enum.filter(fn link -> link != "https://recruitee.com" end)
   end
 end
