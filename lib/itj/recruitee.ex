@@ -144,14 +144,35 @@ defmodule ITJ.Recruitee do
     count
   end
 
-  def get_links(base_url) when is_bitstring(base_url) do
+  def add_links(base_url) when is_bitstring(base_url) do
+    case download_links(base_url) do
+      {:ok, links} ->
+        add_links(links)
+
+      {:error, err} ->
+        {:error, err}
+    end
+  end
+
+  def add_links(links) when is_list(links) do
+    multi = Ecto.Multi.new()
+    multi = Enum.reduce(links, multi, &add_link(&2, &1))
+    ITJ.Repo.transaction(multi)
+  end
+
+  def add_link(multi, link) do
+    new = %{url: link}
+    ITJ.Link.add(multi, new)
+  end
+
+  def download_links(base_url) when is_bitstring(base_url) do
     domain = extract_domain(base_url)
     url = "https://#{domain}/"
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, doc} = Floki.parse_document(body)
-        get_links(doc)
+        parse_links(doc)
 
       {:ok, %HTTPoison.Response{status_code: code}} ->
         {:error, "Unexpected status code: #{code}"}
@@ -161,9 +182,12 @@ defmodule ITJ.Recruitee do
     end
   end
 
-  def get_links(doc) when is_list(doc) do
-    Floki.find(doc, "a[rel~=noopener]")
-    |> Enum.flat_map(fn el -> Floki.attribute(el, "href") end)
-    |> Enum.filter(fn link -> link != "https://recruitee.com" end)
+  def parse_links(doc) when is_list(doc) do
+    links =
+      Floki.find(doc, "a[rel~=noopener]")
+      |> Enum.flat_map(fn el -> Floki.attribute(el, "href") end)
+      |> Enum.filter(fn link -> link != "https://recruitee.com" end)
+
+    {:ok, links}
   end
 end
