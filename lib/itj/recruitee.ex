@@ -90,7 +90,6 @@ defmodule ITJ.Recruitee do
 
   defp request_offers(domain) do
     url = "https://#{domain}/api/offers/"
-    HTTPoison.start()
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -143,5 +142,28 @@ defmodule ITJ.Recruitee do
 
     {count, nil} = ITJ.Repo.delete_all(query)
     count
+  end
+
+  def get_links(base_url) when is_bitstring(base_url) do
+    domain = extract_domain(base_url)
+    url = "https://#{domain}/"
+
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        {:ok, doc} = Floki.parse_document(body)
+        get_links(doc)
+
+      {:ok, %HTTPoison.Response{status_code: code}} ->
+        {:error, "Unexpected status code: #{code}"}
+
+      {:error, err} ->
+        {:error, err}
+    end
+  end
+
+  def get_links(doc) when is_list(doc) do
+    Floki.find(doc, "a[rel~=noopener]")
+    |> Enum.flat_map(fn el -> Floki.attribute(el, "href") end)
+    |> Enum.filter(fn link -> link != "https://recruitee.com" end)
   end
 end
