@@ -65,12 +65,16 @@ defmodule ITJ.Recruitee do
   end
 
   def add_company(offer) when is_map(offer) do
+    domain = URI.parse(offer["careers_url"]).host
+
     new = %{
       title: offer["company_name"],
-      domain: URI.parse(offer["careers_url"]).host
+      domain: domain
     }
 
-    ITJ.Company.add(new)
+    result = ITJ.Company.add(new)
+    add_links(domain)
+    result
   end
 
   @doc """
@@ -144,6 +148,9 @@ defmodule ITJ.Recruitee do
     count
   end
 
+  @doc """
+  Extract links to the company resources and store them in storage.
+  """
   def add_links(base_url) when is_bitstring(base_url) do
     case download_links(base_url) do
       {:ok, links} ->

@@ -12,7 +12,6 @@ defmodule Mix.Tasks.Itj.Add do
     ensure_db()
     domain = hd(args)
     {:ok, offers} = ITJ.Recruitee.sync_offers(domain)
-    ITJ.Recruitee.add_links(domain)
     count = map_size(offers)
     IO.puts("Updated #{count} rows")
   end
