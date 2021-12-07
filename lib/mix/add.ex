@@ -10,10 +10,14 @@ defmodule Mix.Tasks.Itj.Add do
   def run(args) do
     Mix.Task.run("app.start")
     ensure_db()
-    domain = hd(args)
-    {:ok, offers} = ITJ.Recruitee.sync_offers(domain)
-    count = map_size(offers)
-    IO.puts("Updated #{count} rows")
+    domain = args |> hd |> ITJ.Recruitee.sanitize_url()
+
+    if domain do
+      records = ITJ.Recruitee.sync(domain)
+      IO.puts("Updated #{records} records")
+    else
+      IO.puts("Invalid domain")
+    end
   end
 
   defp ensure_db() do

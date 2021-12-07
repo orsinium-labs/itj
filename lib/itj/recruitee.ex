@@ -1,36 +1,50 @@
 defmodule ITJ.Recruitee do
   require Ecto.Query
+  @behaviour ITJ.Provider
 
-  @doc """
-  Synchronize the local storage with remote offers.
+  @impl ITJ.Provider
+  def sanitize_url(base_url) do
+    domain = extract_domain(base_url)
 
-  + new offers will be added
-  + updated offers will be updated
-  + removed offers will be removed
-  """
-  def sync_offers(base_url) when is_bitstring(base_url) do
-    case download_offers(base_url) do
-      {:ok, offers} ->
-        sync_offers(offers)
-
-      {:error, err} ->
-        {:error, err}
+    if String.match?(domain, ~r"^[a-z0-9_\.\-]+\.recruitee\.com") do
+      domain
+    else
+      nil
     end
   end
 
-  def sync_offers(offers) when is_list(offers) do
-    case add_company(offers) do
-      {:ok, company} -> sync_offers(company, offers)
-      {:error, err} -> {:error, err}
-      nil -> {:ok, %{}}
+  defp extract_domain(url) do
+    cond do
+      String.starts_with?(url, "https://") ->
+        URI.parse(url).host
+
+      String.starts_with?(url, "http://") ->
+        URI.parse(url).host
+
+      true ->
+        url
     end
   end
 
-  def sync_offers(company, offers) do
+  @impl ITJ.Provider
+  def sync(domain) when is_bitstring(domain) do
+    offers = download_offers(domain)
+    sync(offers)
+  end
+
+  def sync(offers) when is_list(offers) do
+    company = add_company(offers)
+    links = add_links(company.domain)
+    offers = add_offers(company, offers)
+    1 + map_size(links) + map_size(offers)
+  end
+
+  def add_offers(company, offers) do
     remove_outdated_offers(company, offers)
     multi = Ecto.Multi.new()
     multi = Enum.reduce(offers, multi, &add_offer(&2, &1, company))
-    ITJ.Repo.transaction(multi)
+    {:ok, offers} = ITJ.Repo.transaction(multi)
+    offers
   end
 
   @doc """
@@ -72,9 +86,7 @@ defmodule ITJ.Recruitee do
       domain: domain
     }
 
-    result = ITJ.Company.add(new)
-    add_links(domain)
-    result
+    ITJ.Company.add!(new)
   end
 
   @doc """
@@ -82,35 +94,11 @@ defmodule ITJ.Recruitee do
 
   https://docs.recruitee.com/reference/offers
   """
-  def download_offers(base_url) do
-    domain = extract_domain(base_url)
-
-    if String.match?(domain, ~r"^[a-z0-9_\.\-]+\.recruitee\.com") do
-      offers = request_offers(domain)
-      {:ok, offers}
-    else
-      {:error, "Invalid domain name"}
-    end
-  end
-
-  defp request_offers(domain) do
+  def download_offers(domain) do
     url = "https://#{domain}/api/offers/"
     %HTTPoison.Response{status_code: 200, body: body} = HTTPoison.get!(url)
     %{"offers" => offers} = Jason.decode!(body)
     offers
-  end
-
-  defp extract_domain(url) do
-    cond do
-      String.starts_with?(url, "https://") ->
-        URI.parse(url).host
-
-      String.starts_with?(url, "http://") ->
-        URI.parse(url).host
-
-      true ->
-        url
-    end
   end
 
   @doc """
@@ -133,14 +121,15 @@ defmodule ITJ.Recruitee do
   @doc """
   Extract links to the company resources and store them in storage.
   """
-  def add_links(base_url) when is_bitstring(base_url) do
-    base_url |> download_links |> add_links
+  def add_links(domain) when is_bitstring(domain) do
+    domain |> download_links |> add_links
   end
 
   def add_links(links) when is_list(links) do
     multi = Ecto.Multi.new()
     multi = Enum.reduce(links, multi, &add_link(&2, &1))
-    ITJ.Repo.transaction(multi)
+    {:ok, links} = ITJ.Repo.transaction(multi)
+    links
   end
 
   def add_link(multi, link) do

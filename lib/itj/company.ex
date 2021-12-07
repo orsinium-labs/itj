@@ -12,10 +12,10 @@ defmodule ITJ.Company do
     ITJ.Repo.get_by(ITJ.Company, domain: domain)
   end
 
-  def add(company) when is_map(company) do
+  def add!(company) when is_map(company) do
     old = ITJ.Company.get(company.domain) || %ITJ.Company{}
     changes = ITJ.Company.changeset(old, company)
-    ITJ.Repo.insert_or_update(changes)
+    ITJ.Repo.insert_or_update!(changes)
   end
 
   def changeset(company, attrs) when is_struct(company, ITJ.Company) do
