@@ -5,9 +5,9 @@ config :itj, ITJ.Repo, database: "storage.db"
 config :itj,
   ecto_repos: [ITJ.Repo]
 
-config :itj, ItjWeb.Endpoint,
+config :itj, ITJWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: ItjWeb.ErrorView, accepts: ~w(json), layout: false],
+  render_errors: [view: ITJWeb.ErrorView, accepts: ~w(json), layout: false],
   pubsub_server: Itj.PubSub,
   live_view: [signing_salt: "GekFNg1H"]
 

@@ -1,12 +1,12 @@
-defmodule ItjWeb do
+defmodule ITJWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use ItjWeb, :controller
-      use ItjWeb, :view
+      use ITJWeb, :controller
+      use ITJWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,10 +19,10 @@ defmodule ItjWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: ItjWeb
+      use Phoenix.Controller, namespace: ITJWeb
 
       import Plug.Conn
-      alias ItjWeb.Router.Helpers, as: Routes
+      alias ITJWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -30,7 +30,7 @@ defmodule ItjWeb do
     quote do
       use Phoenix.View,
         root: "lib/itj_web/templates",
-        namespace: ItjWeb
+        namespace: ITJWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -61,8 +61,8 @@ defmodule ItjWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import ItjWeb.ErrorHelpers
-      alias ItjWeb.Router.Helpers, as: Routes
+      import ITJWeb.ErrorHelpers
+      alias ITJWeb.Router.Helpers, as: Routes
     end
   end
 

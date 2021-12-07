@@ -1,4 +1,4 @@
-defmodule ItjWeb.ErrorHelpers do
+defmodule ITJWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """

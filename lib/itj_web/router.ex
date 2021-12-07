@@ -1,12 +1,12 @@
-defmodule ItjWeb.Router do
-  use ItjWeb, :router
+defmodule ITJWeb.Router do
+  use ITJWeb, :router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
-  scope "/api", ItjWeb do
-    pipe_through :api
+  scope "/api", ITJWeb do
+    pipe_through(:api)
   end
 
   # Enables LiveDashboard only for development
@@ -20,8 +20,8 @@ defmodule ItjWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through [:fetch_session, :protect_from_forgery]
-      live_dashboard "/dashboard", metrics: ItjWeb.Telemetry
+      pipe_through([:fetch_session, :protect_from_forgery])
+      live_dashboard("/dashboard", metrics: ITJWeb.Telemetry)
     end
   end
 end

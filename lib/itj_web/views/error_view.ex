@@ -1,5 +1,5 @@
-defmodule ItjWeb.ErrorView do
-  use ItjWeb, :view
+defmodule ITJWeb.ErrorView do
+  use ITJWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.
