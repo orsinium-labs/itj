@@ -34,7 +34,7 @@ defmodule ITJ.Recruitee do
 
   def sync(offers) when is_list(offers) do
     company = add_company(offers)
-    links = add_links(company.domain)
+    links = add_links(company)
     offers = add_offers(company, offers)
     1 + map_size(links) + map_size(offers)
   end
@@ -121,19 +121,20 @@ defmodule ITJ.Recruitee do
   @doc """
   Extract links to the company resources and store them in storage.
   """
-  def add_links(domain) when is_bitstring(domain) do
-    domain |> download_links |> add_links
+  def add_links(company) when is_map(company) do
+    links = download_links(company.domain)
+    add_links(links, company)
   end
 
-  def add_links(links) when is_list(links) do
+  def add_links(links, company) when is_list(links) do
     multi = Ecto.Multi.new()
-    multi = Enum.reduce(links, multi, &add_link(&2, &1))
+    multi = Enum.reduce(links, multi, &add_link(&2, &1, company))
     {:ok, links} = ITJ.Repo.transaction(multi)
     links
   end
 
-  def add_link(multi, link) do
-    new = %{url: link}
+  def add_link(multi, link, company) do
+    new = %{url: link, company_id: company.id}
     ITJ.Link.add(multi, new)
   end
 

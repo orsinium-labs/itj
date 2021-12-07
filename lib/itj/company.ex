@@ -5,6 +5,7 @@ defmodule ITJ.Company do
     field(:title, :string)
     field(:domain, :string)
     has_many(:offers, ITJ.Offer)
+    has_many(:links, ITJ.Link)
   end
 
   @spec get(bitstring) :: ITJ.Offer | nil

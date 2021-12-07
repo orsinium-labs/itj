@@ -3,6 +3,7 @@ defmodule ITJ.Link do
 
   schema "links" do
     field(:url, :string)
+    belongs_to(:company, ITJ.Company)
   end
 
   @spec get(bitstring) :: ITJ.Link | nil
@@ -19,8 +20,8 @@ defmodule ITJ.Link do
 
   def changeset(link, attrs) when is_struct(link, ITJ.Link) do
     link
-    |> Ecto.Changeset.cast(attrs, [:url])
-    |> Ecto.Changeset.validate_required([:url])
+    |> Ecto.Changeset.cast(attrs, [:url, :company_id])
+    |> Ecto.Changeset.validate_required([:url, :company_id])
     |> Ecto.Changeset.validate_format(:url, ~r"^https://.+")
     |> Ecto.Changeset.unique_constraint(:url)
   end
