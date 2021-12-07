@@ -22,11 +22,15 @@ defmodule ITJ.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ecto_sqlite3, "~> 0.7.1"},
+      {:ecto, "~> 3.7.1"},
+      {:floki, "~> 0.32.0"},
       {:httpoison, "~> 1.8"},
       {:jason, "~> 1.2"},
-      {:ecto, "~> 3.7.1"},
-      {:ecto_sqlite3, "~> 0.7.1"},
-      {:floki, "~> 0.32.0"}
+      {:phoenix, "~> 1.6.2"},
+      {:phoenix_live_dashboard, "~> 0.6.2"},
+      {:phoenix_html, "~> 3.1.0"},
+      {:telemetry_metrics, "~> 0.6.1"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
