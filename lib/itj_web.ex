@@ -59,7 +59,7 @@ defmodule ITJWeb do
     quote do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
-
+      import Phoenix.LiveView.Helpers
       import ITJWeb.ErrorHelpers
       alias ITJWeb.Router.Helpers, as: Routes
     end

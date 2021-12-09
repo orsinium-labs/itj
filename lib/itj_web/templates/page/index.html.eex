@@ -1,2 +1,1 @@
-<iframe src="/live/offers">
-</iframe>
+<%= live_render(@conn, ITJWeb.OffersLive) %>
