@@ -19,6 +19,12 @@ defmodule ITJWeb.Router do
     get("/", PageController, :index)
   end
 
+  scope "/live", ITJWeb do
+    pipe_through(:browser)
+
+    live("offers", OffersLive)
+  end
+
   scope "/api", ITJWeb do
     pipe_through(:api)
   end

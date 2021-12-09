@@ -1,0 +1,5 @@
+{#for offer <- @offers}
+  <OfferCard offer={offer} />
+{#else}
+  No matching offers found.
+{/for}
