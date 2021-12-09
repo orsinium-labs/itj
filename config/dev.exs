@@ -16,6 +16,14 @@ config :itj, ITJWeb.Endpoint,
   secret_key_base: "R16EsatwqIwMQLnmY2yjibmXRXX0RVfAYda1EMUKrys1tZtsaJjYWzX4HTIDJxBm",
   watchers: []
 
+config :itj, ITJWeb.Endpoint,
+  live_reload: [
+    patterns: [
+      ~r"lib/itj_web/(live|views)/.*(ex)$",
+      ~r"lib/itj_web/templates/.*(eex)$"
+    ]
+  ]
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

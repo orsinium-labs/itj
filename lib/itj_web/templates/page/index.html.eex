@@ -1,0 +1,15 @@
+<%= for offer <- @offers do %>
+  <div class="card">
+    <div class="card-body">
+      <h6 class="card-title">
+        <%= offer.title %>
+        <%= if offer.remote do %>
+          <span class="badge bg-primary">
+            remote
+          </span>
+        <% end %>
+      </h6>
+      <a href="<%= offer.url %>" class="card-link" target="_blank">more</a>
+    </div>
+  </div>
+<% end %>
