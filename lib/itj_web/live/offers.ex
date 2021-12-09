@@ -1,13 +1,23 @@
 defmodule ITJWeb.OffersLive do
   use Surface.LiveView
   alias ITJWeb.Components.Offers
+  alias ITJWeb.Components.OfferSearch
   import Ecto.Query
 
   data(offers, :list)
 
   def render(assigns) do
     ~F"""
-    <Offers offers={@offers} />
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-lg-3">
+            <OfferSearch />
+          </div>
+          <div class="col">
+            <Offers offers={@offers} />
+          </div>
+        </div>
+      </div>
     """
   end
 
