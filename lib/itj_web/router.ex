@@ -7,6 +7,7 @@ defmodule ITJWeb.Router do
     plug(:fetch_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(:put_root_layout, {ITJWeb.LayoutView, :root})
   end
 
   pipeline :api do
@@ -16,13 +17,7 @@ defmodule ITJWeb.Router do
   scope "/", ITJWeb do
     pipe_through(:browser)
 
-    get("/", PageController, :index)
-  end
-
-  scope "/live", ITJWeb do
-    pipe_through(:browser)
-
-    live("offers", OffersLive)
+    live("/", OffersLive)
   end
 
   scope "/api", ITJWeb do
