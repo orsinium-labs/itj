@@ -17,9 +17,10 @@ config :itj, ITJWeb.Endpoint,
   watchers: []
 
 config :itj, ITJWeb.Endpoint,
+  reloadable_compilers: [:elixir, :surface],
   live_reload: [
     patterns: [
-      ~r"lib/itj_web/(live|views)/.*(ex)$",
+      ~r"lib/itj_web/(live|views|components)/.*(ex|sface|js)$",
       ~r"lib/itj_web/templates/.*(eex)$"
     ]
   ]

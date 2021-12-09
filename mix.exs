@@ -26,11 +26,13 @@ defmodule ITJ.MixProject do
       {:httpoison, "~> 1.8"},
       {:jason, "~> 1.2"},
       {:phoenix_html, "~> 3.1.0"},
-      {:phoenix_live_dashboard, "~> 0.6.2"},
+      {:phoenix_live_dashboard, "~> 0.5.3"},
       {:phoenix, "~> 1.6.2"},
       {:plug_cowboy, "~> 2.5.2"},
+      {:surface, "~> 0.6.1"},
       {:telemetry_metrics, "~> 0.6.1"},
-      {:telemetry_poller, "~> 1.0.0"}
+      {:telemetry_poller, "~> 1.0.0"},
+      {:surface_formatter, "~> 0.6.0"}
     ]
   end
 end
