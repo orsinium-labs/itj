@@ -8,12 +8,11 @@
     phx-change="offer_search"
     phx-target="#offer_list"
   >
-    <h6>Remote?</h6>
+    <%= Phoenix.HTML.Form.text_input search_form, :title, placeholder: "title", class: "form-control" %>
+    <b>Remote?</b>
     <%= for value <- ["yes", "no", "any"] do %>
-      <div class="form-check">
-        <%= Phoenix.HTML.Form.radio_button search_form, "remote", value %>
-        <%= Phoenix.HTML.Form.label search_form, "remote_#{value}", value %>
-      </div>
+      <%= Phoenix.HTML.Form.radio_button search_form, "remote", value %>
+      <%= Phoenix.HTML.Form.label search_form, "remote_#{value}", value %>
     <% end %>
   </.form>
 </div>

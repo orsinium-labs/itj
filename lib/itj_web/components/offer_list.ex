@@ -16,7 +16,7 @@ defmodule ITJWeb.Components.OfferList do
   end
 
   defp apply_filters(query, filters) do
-    query |> apply_remote(filters)
+    query |> apply_remote(filters) |> apply_title(filters)
   end
 
   defp apply_remote(query, %{"remote" => "yes"}) do
@@ -29,5 +29,15 @@ defmodule ITJWeb.Components.OfferList do
 
   defp apply_remote(query, _) do
     query
+  end
+
+  defp apply_title(query, %{"title" => ""}) do
+    query
+  end
+
+  defp apply_title(query, %{"title" => title}) do
+    title = Regex.replace(~r/[^a-zA-Z]+/, title, " ")
+    title = Regex.replace(~r/\s+/, title, "%")
+    where(query, [o], like(o.title, ^"%#{title}%"))
   end
 end
