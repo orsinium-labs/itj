@@ -5,6 +5,8 @@
 /doc/
 /tmp/
 /.storage/
+/example/
+/priv/static/
 
 # files
 /.fetch
@@ -13,6 +15,3 @@ erl_crash.dump
 itj-*.tar
 /*.db
 /*.db-*
-
-# Ignore generated js hook files for components
-assets/js/_hooks/

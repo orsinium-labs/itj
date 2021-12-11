@@ -7,6 +7,7 @@ defmodule ITJ.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -22,6 +23,7 @@ defmodule ITJ.MixProject do
     [
       {:ecto_sqlite3, "~> 0.7.1"},
       {:ecto, "~> 3.7.1"},
+      {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
       {:floki, "~> 0.32.0"},
       {:httpoison, "~> 1.8"},
       {:jason, "~> 1.2"},
@@ -32,6 +34,16 @@ defmodule ITJ.MixProject do
       {:plug_cowboy, "~> 2.5.2"},
       {:telemetry_metrics, "~> 0.6.1"},
       {:telemetry_poller, "~> 1.0.0"}
+    ]
+  end
+
+  defp aliases do
+    [
+      setup: ["deps.get", "ecto.setup"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "assets.deploy": ["esbuild default --minify", "phx.digest"]
     ]
   end
 end

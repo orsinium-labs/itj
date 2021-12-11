@@ -14,11 +14,14 @@ config :itj, ITJWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "R16EsatwqIwMQLnmY2yjibmXRXX0RVfAYda1EMUKrys1tZtsaJjYWzX4HTIDJxBm",
-  watchers: []
+  watchers: [
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+  ]
 
 config :itj, ITJWeb.Endpoint,
   live_reload: [
     patterns: [
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"lib/itj_web/(live|views|components)/.*(ex|sface|js)$",
       ~r"lib/itj_web/templates/.*(eex)$"
     ]
