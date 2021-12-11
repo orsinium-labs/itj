@@ -1,6 +1,7 @@
 defmodule ITJWeb.Components.OfferCard do
-  use Surface.Component
+  use Phoenix.LiveComponent
 
-  @doc "The offer to render"
-  prop(offer, :string)
+  def render(assigns) do
+    Phoenix.View.render(ITJWeb.ComponentView, "offer_card.html", assigns)
+  end
 end

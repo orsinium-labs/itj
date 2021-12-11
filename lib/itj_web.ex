@@ -28,7 +28,10 @@ defmodule ITJWeb do
 
   def view do
     quote do
-      import Surface
+      use Phoenix.View,
+        root: "lib/itj_web/templates",
+        namespace: ITJWeb
+
       import Phoenix.View
       import Phoenix.LiveView.Helpers
       import ITJWeb.ErrorHelpers

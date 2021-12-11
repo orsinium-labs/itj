@@ -1,0 +1,5 @@
+<div id={@id}>
+  <%= for offer <- @offers do %>
+    <.live_component module={ITJWeb.Components.OfferCard} id={offer.id} offer={offer} />
+  <% end %>
+</div>
