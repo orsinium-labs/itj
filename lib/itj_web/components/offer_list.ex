@@ -12,7 +12,14 @@ defmodule ITJWeb.Components.OfferList do
       |> apply_filters(search)
       |> ITJ.Repo.all()
 
-    {:noreply, assign(socket, :offers, offers)}
+    socket =
+      socket
+      |> push_patch(
+        to: ITJWeb.Router.Helpers.live_path(socket, ITJWeb.OffersLive, %{"search" => search})
+      )
+      |> assign(:offers, offers)
+
+    {:noreply, socket}
   end
 
   defp apply_filters(query, filters) do

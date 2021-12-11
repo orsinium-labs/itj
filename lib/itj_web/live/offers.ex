@@ -11,4 +11,8 @@ defmodule ITJWeb.OffersLive do
     offers = ITJ.Repo.all(query)
     {:ok, assign(socket, :offers, offers)}
   end
+
+  def handle_params(_params, _uri, socket) do
+    {:noreply, socket}
+  end
 end
