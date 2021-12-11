@@ -1,24 +1,19 @@
-<form id={@id}>
-  <h6>Remote?</h6>
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="remote" id="remote-yes">
-    <label class="form-check-label" for="remote-yes">
-      <i class="fas fa-check-circle"></i>
-      Yes
-    </label>
-  </div>
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="remote" id="remote-no">
-    <label class="form-check-label" for="remote-no">
-      <i class="fas fa-times-circle"></i>
-      No
-    </label>
-  </div>
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="remote" id="remote-any" checked>
-    <label class="form-check-label" for="remote-any">
-      <i class="fas fa-question-circle"></i>
-      Doesn't matter
-    </label>
-  </div>
-</form>
+<div>
+  <.form
+    id={@id}
+    method="get"
+    as="search"
+    for={:search}
+    let={search_form}
+    phx-change={@id}
+    phx-target="offer_list"
+  >
+    <h6>Remote?</h6>
+    <%= for value <- ["yes", "no", "maybe"] do %>
+      <div class="form-check">
+        <%= Phoenix.HTML.Form.radio_button search_form, "remote", value %>
+        <%= Phoenix.HTML.Form.label search_form, "remote_#{value}", value %>
+      </div>
+    <% end %>
+  </.form>
+</div>
