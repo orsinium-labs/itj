@@ -5,11 +5,11 @@
     as="search"
     for={:search}
     let={search_form}
-    phx-change={@id}
-    phx-target="offer_list"
+    phx-change="offer_search"
+    phx-target="#offer_list"
   >
     <h6>Remote?</h6>
-    <%= for value <- ["yes", "no", "maybe"] do %>
+    <%= for value <- ["yes", "no", "any"] do %>
       <div class="form-check">
         <%= Phoenix.HTML.Form.radio_button search_form, "remote", value %>
         <%= Phoenix.HTML.Form.label search_form, "remote_#{value}", value %>
