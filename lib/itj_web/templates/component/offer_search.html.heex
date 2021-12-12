@@ -2,20 +2,20 @@
   <.form
     id={@id}
     method="get"
-    as="search"
     for={:search}
     let={search_form}
     phx-change="offer_search"
     phx-target={@myself}
   >
+
     <%= text_input(
-        search_form, :title,
-        placeholder: "title",
-        class: "form-control",
-        value: Map.get(@search, "title"),
-      )
-    %>
-    <b>Remote?</b>
+      search_form, :title,
+      placeholder: "title",
+      class: "form-control",
+      value: Map.get(@search, "title"),
+    ) %>
+
+    <b>remote?</b>
     <%= for value <- ["yes", "no", "any"] do %>
       <%= radio_button(
         search_form, "remote", value,
@@ -23,5 +23,19 @@
       ) %>
       <%= label search_form, "remote_#{value}", value %>
     <% end %>
+
+    <%= text_input(
+      search_form, :city,
+      placeholder: "city",
+      class: "form-control",
+      value: Map.get(@search, "city"),
+      list: "city_options",
+    ) %>
+    <datalist id="city_options">
+      <%= for city <- @cities do %>
+        <option value={city}/>
+      <% end %>
+    </datalist>
+
   </.form>
 </div>

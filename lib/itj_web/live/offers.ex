@@ -8,6 +8,8 @@ defmodule ITJWeb.OffersLive do
 
   def mount(params, _session, socket) do
     {:noreply, socket} = handle_params(params, nil, socket)
+    cities = from(offer in ITJ.Offer, select: offer.city, distinct: true) |> ITJ.Repo.all()
+    socket = socket |> assign(:cities, cities)
     {:ok, socket}
   end
 
@@ -26,7 +28,7 @@ defmodule ITJWeb.OffersLive do
   end
 
   defp apply_filters(query, filters) do
-    query |> apply_remote(filters) |> apply_title(filters)
+    query |> apply_remote(filters) |> apply_title(filters) |> apply_city(filters)
   end
 
   defp apply_remote(query, %{"remote" => "yes"}) do
@@ -52,6 +54,18 @@ defmodule ITJWeb.OffersLive do
   end
 
   defp apply_title(query, _) do
+    query
+  end
+
+  defp apply_city(query, %{"city" => ""}) do
+    query
+  end
+
+  defp apply_city(query, %{"city" => city}) do
+    where(query, city: ^city)
+  end
+
+  defp apply_city(query, _) do
     query
   end
 end
