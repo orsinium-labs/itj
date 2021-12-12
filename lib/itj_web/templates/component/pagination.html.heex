@@ -1,15 +1,28 @@
 <nav aria-label="page navigation">
   <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      <a class="page-link">Previous</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <%= if @page > 2 do %>
+      <li class="page-item">
+        <a class="page-link" href="#" phx-click="pagination" phx-value-page={1} phx-target={@myself}>
+          first
+        </a>
+      </li>
+    <% end %>
+    <%= if @page > 1 do %>
+      <li class="page-item">
+        <a class="page-link" href="#" phx-click="pagination" phx-value-page={@page-1} phx-target={@myself}>
+          previous
+        </a>
+      </li>
+    <% end %>
     <li class="page-item active" aria-current="page">
-      <a class="page-link" href="#">2</a>
+      <a class="page-link" phx-click="pagination" phx-value-page={@page} phx-target={@myself}>
+        <%= @page %>
+      </a>
     </li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
+    <li class="page-item" aria-current="page">
+      <a class="page-link" href="#" phx-click="pagination" phx-value-page={@page+1} phx-target={@myself}>
+        next
+      </a>
     </li>
   </ul>
 </nav>

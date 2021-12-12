@@ -13,7 +13,11 @@
         <div class="col-12">
           <.live_component module={ITJWeb.Components.OfferList} id="offer_list" offers={@offers} />
         </div>
-        <.live_component module={ITJWeb.Components.Pagination} id="pagination" />
+        <.live_component
+          module={ITJWeb.Components.Pagination}
+          id="pagination"
+          page={get_page(@search)}
+        />
       </div>
     </main>
   </div>
