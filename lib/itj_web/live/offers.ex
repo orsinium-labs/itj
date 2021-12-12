@@ -28,7 +28,12 @@ defmodule ITJWeb.OffersLive do
   end
 
   defp apply_filters(query, filters) do
-    query |> apply_remote(filters) |> apply_title(filters) |> apply_city(filters)
+    query
+    |> apply_remote(filters)
+    |> apply_title(filters)
+    |> apply_city(filters)
+    |> apply_limit(filters)
+    |> apply_page(filters)
   end
 
   defp apply_remote(query, %{"remote" => "yes"}) do
@@ -66,6 +71,18 @@ defmodule ITJWeb.OffersLive do
   end
 
   defp apply_city(query, _) do
+    query
+  end
+
+  defp apply_limit(query, _) do
+    query |> limit(4)
+  end
+
+  defp apply_page(query, %{"page" => page}) when page > 1 do
+    query |> offset(^page * ^query.limit.expr)
+  end
+
+  defp apply_page(query, _) do
     query
   end
 end
