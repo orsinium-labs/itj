@@ -6,10 +6,9 @@ defmodule ITJWeb.OffersLive do
     Phoenix.View.render(ITJWeb.PageView, "index.html", assigns)
   end
 
-  def mount(_params, _session, socket) do
-    query = from(o in ITJ.Offer, join: c in assoc(o, :company), preload: [company: c])
-    offers = ITJ.Repo.all(query)
-    {:ok, assign(socket, :offers, offers)}
+  def mount(params, _session, socket) do
+    {:noreply, socket} = handle_params(params, nil, socket)
+    {:ok, socket}
   end
 
   def handle_params(params, _uri, socket) do
@@ -18,7 +17,11 @@ defmodule ITJWeb.OffersLive do
       |> apply_filters(params)
       |> ITJ.Repo.all()
 
-    socket = assign(socket, :offers, offers)
+    socket =
+      socket
+      |> assign(:offers, offers)
+      |> assign(:search, params)
+
     {:noreply, socket}
   end
 

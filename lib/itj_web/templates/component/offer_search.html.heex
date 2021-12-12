@@ -6,12 +6,24 @@
     for={:search}
     let={search_form}
     phx-change="offer_search"
-    phx-target="#offer_list"
+    phx-target={@myself}
   >
-    <%= Phoenix.HTML.Form.text_input search_form, :title, placeholder: "title", class: "form-control" %>
+    <%= Phoenix.HTML.Form.text_input(
+        search_form,
+        :title,
+        placeholder: "title",
+        class: "form-control",
+        value: Map.get(@search, "title"),
+      )
+    %>
     <b>Remote?</b>
     <%= for value <- ["yes", "no", "any"] do %>
-      <%= Phoenix.HTML.Form.radio_button search_form, "remote", value %>
+      <%= Phoenix.HTML.Form.radio_button(
+        search_form,
+        "remote",
+        value,
+        checked: (Map.get(@search, "remote") == value),
+      ) %>
       <%= Phoenix.HTML.Form.label search_form, "remote_#{value}", value %>
     <% end %>
   </.form>
