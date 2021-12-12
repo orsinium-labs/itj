@@ -34,6 +34,8 @@ defmodule ITJWeb do
 
       import Phoenix.View
       import Phoenix.LiveView.Helpers
+      import Phoenix.HTML.Form
+      import Phoenix.HTML.Tag
       import ITJWeb.ErrorHelpers
       alias ITJWeb.Router.Helpers, as: Routes
     end
