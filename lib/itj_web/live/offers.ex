@@ -74,15 +74,14 @@ defmodule ITJWeb.OffersLive do
     query
   end
 
-  defp apply_limit(query, _) do
-    query |> limit(4)
+  defp apply_limit(query, search) do
+    per_page = ITJWeb.PageView.get_limit(search)
+    query |> limit(^per_page)
   end
 
-  defp apply_page(query, %{"page" => page}) when page > 1 do
-    query |> offset(^page * ^query.limit.expr)
-  end
-
-  defp apply_page(query, _) do
-    query
+  defp apply_page(query, search) do
+    page = ITJWeb.PageView.get_page(search) - 1
+    per_page = ITJWeb.PageView.get_limit(search)
+    query |> offset(^page * ^per_page)
   end
 end
