@@ -2,27 +2,53 @@
   <ul class="pagination justify-content-center">
     <%= if @page > 2 do %>
       <li class="page-item">
-        <a class="page-link" href="#" phx-click="pagination" phx-value-page={1} phx-target={@myself}>
-          first
+        <a
+        class="page-link"
+        href="#"
+        phx-click="pagination"
+        phx-value-page={1}
+        phx-target={@myself}
+        aria-label="go to the first page"
+      >
+          <i class="fas fa-angle-double-left"></i>
         </a>
       </li>
     <% end %>
     <%= if @page > 1 do %>
       <li class="page-item">
-        <a class="page-link" href="#" phx-click="pagination" phx-value-page={@page-1} phx-target={@myself}>
-          previous
+        <a
+          class="page-link"
+          href="#"
+          phx-click="pagination"
+          phx-value-page={@page-1}
+          phx-target={@myself}
+          aria-label="go to the previous page"
+        >
+          <i class="fas fa-angle-left"></i>
         </a>
       </li>
     <% end %>
     <li class="page-item active" aria-current="page">
-      <a class="page-link" phx-click="pagination" phx-value-page={@page} phx-target={@myself}>
+      <a
+        class="page-link"
+        phx-click="pagination"
+        phx-value-page={@page}
+        phx-target={@myself}
+        aria-label="current page number"
+      >
         <%= @page %>
       </a>
     </li>
     <%= if not @last_page do %>
       <li class="page-item" aria-current="page">
-        <a class="page-link" href="#" phx-click="pagination" phx-value-page={@page+1} phx-target={@myself}>
-          next
+        <a
+          class="page-link" href="#"
+          phx-click="pagination"
+          phx-value-page={@page+1}
+          phx-target={@myself}
+          aria-label="go to the next page"
+        >
+          <i class="fas fa-angle-right"></i>
         </a>
       </li>
     <% end %>

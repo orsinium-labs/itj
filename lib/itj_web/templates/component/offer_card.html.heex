@@ -4,11 +4,6 @@
       <a href={@offer.url} target="_blank">
         <%= @offer.title %>
       </a>
-      <%= if @offer.remote do %>
-        <span class="badge bg-primary">
-          remote
-        </span>
-      <% end %>
     </div>
     <div class="card-body">
       <p class="card-text">
@@ -16,6 +11,12 @@
         <%= @offer.company.title %>
         <i class="fas fa-map-marker"></i>
         <%= @offer.city %>, <%= @offer.country_code %>
+        <%= if @offer.remote do %>
+          <span class="badge bg-primary text-light" title="remote">
+            <i class="fas fa-laptop-house"></i>
+            <i class="fas fa-check"></i>
+          </span>
+        <% end %>
       </p>
     </div>
   </div>
