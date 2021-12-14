@@ -9,7 +9,7 @@ defmodule ITJWeb.OffersLive do
   def mount(params, _session, socket) do
     {:noreply, socket} = handle_params(params, nil, socket)
     cities = from(offer in ITJ.Offer, select: offer.city, distinct: true) |> ITJ.Repo.all()
-    socket = socket |> assign(:cities, cities)
+    socket = socket |> assign(:cities, cities) |> assign(:page_title, "Offers")
     {:ok, socket}
   end
 

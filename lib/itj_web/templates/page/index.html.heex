@@ -1,3 +1,7 @@
-ITJ is a job aggregator. Go to
-<%= link "offers", to: Routes.live_path(@conn, ITJWeb.OffersLive) %>
-to get started.
+<% offers_link = link "offers", to: Routes.live_path(@conn, ITJWeb.OffersLive) %>
+<% gram_link = link "Gram", to: "https://orsinium.dev/" %>
+<main class="text-center fs-2">
+    <p>ITJ is a job aggregator.</p>
+    <p>Made with <i class="fas fa-heart text-danger"></i> by <%= gram_link %>.</p>
+    <p>Go to <%= offers_link %> to get started.</p>
+</main>
