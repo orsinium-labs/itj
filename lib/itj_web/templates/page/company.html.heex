@@ -1,0 +1,14 @@
+<main>
+  <h2>
+    <%= @company.title %>
+  </h2>
+  <ul>
+    <%= for url <- ITJ.Company.get_urls(@company) do %>
+      <li>
+        <a href={url} target="_blank">
+          <%= url %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</main>

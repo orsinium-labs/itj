@@ -26,4 +26,9 @@ defmodule ITJ.Company do
     |> Ecto.Changeset.validate_format(:domain, ~r"^[a-z0-9_\.\-]+\.recruitee\.com")
     |> Ecto.Changeset.unique_constraint(:domain)
   end
+
+  def get_urls(company) do
+    urls = for link <- company.links, do: link.url
+    ["https://#{company.domain}" | urls]
+  end
 end

@@ -19,6 +19,7 @@ defmodule ITJWeb.Router do
 
     get("/", PageController, :index)
     live("/offers", OffersLive)
+    live("/company/:domain", CompanyLive)
   end
 
   scope "/api", ITJWeb do

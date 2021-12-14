@@ -8,7 +8,9 @@
     <div class="card-body">
       <p class="card-text">
         <i class="fas fa-building"></i>
-        <%= @offer.company.title %>
+        <a href={Routes.live_path(@socket, ITJWeb.CompanyLive, @offer.company.domain)}>
+          <%= @offer.company.title %>
+        </a>
         <i class="fas fa-map-marker"></i>
         <%= @offer.city %>, <%= @offer.country_code %>
         <%= if @offer.remote do %>
