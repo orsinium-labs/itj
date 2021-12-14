@@ -22,7 +22,7 @@ defmodule ITJ.Link do
     link
     |> Ecto.Changeset.cast(attrs, [:url, :company_id])
     |> Ecto.Changeset.validate_required([:url, :company_id])
-    |> Ecto.Changeset.validate_format(:url, ~r"^https://.+")
+    |> Ecto.Changeset.validate_format(:url, ~r"^https?://.+")
     |> Ecto.Changeset.unique_constraint(:url)
   end
 

@@ -143,11 +143,19 @@ defmodule ITJ.Recruitee do
     url = "https://#{domain}/"
 
     %HTTPoison.Response{status_code: 200, body: body} = HTTPoison.get!(url)
+    document = Floki.parse_document!(body)
 
-    body
-    |> Floki.parse_document!()
-    |> Floki.find("a[rel~=noopener]")
-    |> Enum.flat_map(fn el -> Floki.attribute(el, "href") end)
-    |> Enum.filter(fn link -> link != "https://recruitee.com" end)
+    social_links =
+      document
+      |> Floki.find("a[rel~=noopener]")
+      |> Enum.flat_map(fn el -> Floki.attribute(el, "href") end)
+      |> Enum.filter(fn link -> link != "https://recruitee.com" end)
+
+    company_links =
+      document
+      |> Floki.find("a[class~=company-link]")
+      |> Enum.flat_map(fn el -> Floki.attribute(el, "href") end)
+
+    social_links ++ company_links
   end
 end
