@@ -17,6 +17,7 @@
           module={ITJWeb.Components.Pagination}
           id="pagination"
           page={get_page(@search)}
+          last_page={length(@offers) < get_per_page(@offers)}
         />
       </div>
     </main>

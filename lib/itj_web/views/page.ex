@@ -8,4 +8,8 @@ defmodule ITJWeb.PageView do
   def get_page(_) do
     1
   end
+
+  def get_per_page(_) do
+    4
+  end
 end
