@@ -1,16 +1,23 @@
-<main>
-  <h2>
-    <%= @company.title %>
-  </h2>
-  <ul class="list-unstyled">
-    <%= for url <- ITJ.Company.get_urls(@company) do %>
-      <% domain = ITJ.Link.get_domain(url) %>
-      <li>
-        <a href={url} target="_blank">
-          <i class={ITJ.Link.get_icon(domain)}></i>
-          <%= domain %>
-        </a>
-      </li>
-    <% end %>
-  </ul>
-</main>
+<h2>
+  <%= @company.title %>
+</h2>
+<div class="container">
+  <div class="row g-3">
+    <aside class="col-md-4 col-lg-3">
+      <ul class="list-unstyled">
+        <%= for url <- ITJ.Company.get_urls(@company) do %>
+          <% domain = ITJ.Link.get_domain(url) %>
+          <li>
+            <a href={url} target="_blank">
+              <i class={ITJ.Link.get_icon(domain)}></i>
+              <%= domain %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </aside>
+    <main class="col">
+      <.live_component module={ITJWeb.Components.OfferList} id="offer_list" offers={@company.offers} />
+    </main>
+  </div>
+</div>

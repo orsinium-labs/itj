@@ -7,10 +7,12 @@
     </div>
     <div class="card-body">
       <p class="card-text">
-        <i class="fas fa-building"></i>
-        <a href={Routes.live_path(@socket, ITJWeb.CompanyLive, @offer.company.domain)}>
-          <%= @offer.company.title %>
-        </a>
+        <%= if Ecto.assoc_loaded?(@offer.company) do %>
+          <i class="fas fa-building"></i>
+          <a href={Routes.live_path(@socket, ITJWeb.CompanyLive, @offer.company.domain)}>
+            <%= @offer.company.title %>
+          </a>
+        <% end %>
         <i class="fas fa-map-marker"></i>
         <%= @offer.city %>, <%= @offer.country_code %>
         <%= if @offer.remote do %>

@@ -7,11 +7,20 @@ defmodule ITJWeb.CompanyLive do
   end
 
   def mount(params, _session, socket) do
-    query =
-      from(company in ITJ.Company, join: link in assoc(company, :links), preload: [links: link])
+    company =
+      from(company in ITJ.Company,
+        join: links in assoc(company, :links),
+        join: offers in assoc(company, :offers),
+        preload: [links: links],
+        preload: [offers: offers]
+      )
+      |> ITJ.Repo.get_by(domain: params["domain"])
 
-    company = ITJ.Repo.get_by(query, domain: params["domain"])
-    socket = socket |> assign(:company, company) |> assign(:page_title, company.title)
+    socket =
+      socket
+      |> assign(:company, company)
+      |> assign(:page_title, company.title)
+
     {:ok, socket}
   end
 end
