@@ -25,4 +25,24 @@ defmodule ITJ.Link do
     |> Ecto.Changeset.validate_format(:url, ~r"^https://.+")
     |> Ecto.Changeset.unique_constraint(:url)
   end
+
+  @spec get_domain(bitstring) :: bitstring
+  def get_domain(url) do
+    URI.parse(url).host |> String.replace_prefix("www.", "")
+  end
+
+  @spec get_icon(bitstring) :: bitstring
+  def get_icon(domain) do
+    if String.ends_with?(domain, ".recruitee.com") do
+      "fas fa-fw fa-users"
+    else
+      case domain do
+        "instagram.com" -> "fab fa-fw fa-instagram"
+        "facebook.com" -> "fab fa-fw fa-facebook"
+        "linkedin.com" -> "fab fa-fw fa-linkedin"
+        "twitter.com" -> "fab fa-fw fa-twitter"
+        _ -> "fas fa-fw fa-link"
+      end
+    end
+  end
 end

@@ -2,11 +2,13 @@
   <h2>
     <%= @company.title %>
   </h2>
-  <ul>
+  <ul class="list-unstyled">
     <%= for url <- ITJ.Company.get_urls(@company) do %>
+      <% domain = ITJ.Link.get_domain(url) %>
       <li>
         <a href={url} target="_blank">
-          <%= url %>
+          <i class={ITJ.Link.get_icon(domain)}></i>
+          <%= domain %>
         </a>
       </li>
     <% end %>
