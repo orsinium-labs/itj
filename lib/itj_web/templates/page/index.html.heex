@@ -1,25 +1,3 @@
-<div class="container">
-  <div class="row g-4">
-    <aside class="col-md-4 col-lg-3">
-      <.live_component
-        module={ITJWeb.Components.OfferSearch}
-        id="offer_search"
-        search={@search}
-        cities={@cities}
-      />
-    </aside>
-    <main class="col">
-      <div class="row g-4">
-        <div class="col-12">
-          <.live_component module={ITJWeb.Components.OfferList} id="offer_list" offers={@offers} />
-        </div>
-        <.live_component
-          module={ITJWeb.Components.Pagination}
-          id="pagination"
-          page={get_page(@search)}
-          last_page={length(@offers) < get_limit(@offers)}
-        />
-      </div>
-    </main>
-  </div>
-</div>
+ITJ is a job aggregator. Go to
+<%= link "offers", to: Routes.live_path(@conn, ITJWeb.OffersLive) %>
+to get started.

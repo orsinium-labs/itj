@@ -3,7 +3,7 @@ defmodule ITJWeb.OffersLive do
   import Ecto.Query
 
   def render(assigns) do
-    Phoenix.View.render(ITJWeb.PageView, "index.html", assigns)
+    Phoenix.View.render(ITJWeb.PageView, "offers.html", assigns)
   end
 
   def mount(params, _session, socket) do
