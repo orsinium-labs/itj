@@ -59,6 +59,7 @@ defmodule ITJ.Recruitee do
       city: offer["city"],
       url: offer["careers_url"],
       remote: offer["remote"],
+      published_at: DateTimeParser.parse!(offer["published_at"]),
       company_id: company.id
     }
 

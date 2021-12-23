@@ -7,6 +7,7 @@ defmodule ITJ.Offer do
     field(:city, :string)
     field(:url, :string)
     field(:remote, :boolean)
+    field(:published_at, :utc_datetime)
     belongs_to(:company, ITJ.Company)
   end
 
@@ -24,8 +25,16 @@ defmodule ITJ.Offer do
 
   def changeset(offer, attrs) when is_struct(offer, ITJ.Offer) do
     offer
-    |> Ecto.Changeset.cast(attrs, [:title, :country_code, :city, :url, :remote, :company_id])
-    |> Ecto.Changeset.validate_required([:title, :url])
+    |> Ecto.Changeset.cast(attrs, [
+      :title,
+      :country_code,
+      :city,
+      :url,
+      :remote,
+      :published_at,
+      :company_id
+    ])
+    |> Ecto.Changeset.validate_required([:title, :url, :published_at])
     |> Ecto.Changeset.validate_format(:url, ~r"^https://[a-z0-9_\.\-]+/.+")
     |> Ecto.Changeset.unique_constraint(:url)
     |> Ecto.Changeset.validate_length(:country_code, is: 2)

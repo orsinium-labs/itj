@@ -21,6 +21,7 @@ defmodule ITJ.MixProject do
 
   defp deps do
     [
+      {:date_time_parser, "~> 1.1.2"},
       {:ecto_sqlite3, "~> 0.7.1"},
       {:ecto, "~> 3.7.1"},
       {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
