@@ -11,6 +11,7 @@ defmodule ITJ.Application do
       # core
       ITJ.Repo,
       {Task.Supervisor, name: ITJ.TaskSupervisor},
+      ITJ.Syncer,
 
       # web
       ITJWeb.Telemetry,
