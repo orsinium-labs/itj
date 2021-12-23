@@ -2,8 +2,8 @@ defmodule ITJ.Syncer do
   use GenServer
   import Ecto.Query
 
-  def start_link do
-    GenServer.start_link(__MODULE__, %{})
+  def start_link(state) do
+    GenServer.start_link(__MODULE__, state)
   end
 
   @impl true
