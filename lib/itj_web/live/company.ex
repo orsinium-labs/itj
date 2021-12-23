@@ -12,7 +12,8 @@ defmodule ITJWeb.CompanyLive do
         join: links in assoc(company, :links),
         join: offers in assoc(company, :offers),
         preload: [links: links],
-        preload: [offers: offers]
+        preload: [offers: offers],
+        order_by: [desc: offers.published_at]
       )
       |> ITJ.Repo.get_by(domain: params["domain"])
 

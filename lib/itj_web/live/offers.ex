@@ -15,7 +15,11 @@ defmodule ITJWeb.OffersLive do
 
   def handle_params(params, _uri, socket) do
     offers =
-      from(o in ITJ.Offer, join: c in assoc(o, :company), preload: [company: c])
+      from(o in ITJ.Offer,
+        join: c in assoc(o, :company),
+        preload: [company: c],
+        order_by: [desc: o.published_at]
+      )
       |> apply_filters(params)
       |> ITJ.Repo.all()
 

@@ -13,8 +13,13 @@
             <%= @offer.company.title %>
           </a>
         <% end %>
+
         <i class="fas fa-map-marker"></i>
         <%= @offer.city %>, <%= @offer.country_code %>
+
+        <i class="fas fa-calendar-day"></i>
+        <%= Calendar.strftime(@offer.published_at, "%y-%m-%d") %>
+
         <%= if @offer.remote do %>
           <span class="badge bg-dark text-light" title="remote">
             <i class="fas fa-laptop-house"></i>
