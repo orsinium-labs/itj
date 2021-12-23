@@ -28,17 +28,19 @@
         </a>
       </li>
     <% end %>
-    <li class="page-item active" aria-current="page">
-      <a
-        class="page-link"
-        phx-click="pagination"
-        phx-value-page={@page}
-        phx-target={@myself}
-        aria-label="current page number"
-      >
-        <%= @page %>
-      </a>
-    </li>
+    <%= if @page != 1 or not @last_page do %>
+      <li class="page-item active" aria-current="page">
+        <a
+          class="page-link"
+          phx-click="pagination"
+          phx-value-page={@page}
+          phx-target={@myself}
+          aria-label="current page number"
+        >
+          <%= @page %>
+        </a>
+      </li>
+    <% end %>
     <%= if not @last_page do %>
       <li class="page-item" aria-current="page">
         <a
