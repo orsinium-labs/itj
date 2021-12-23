@@ -34,7 +34,8 @@ defmodule ITJ.MixProject do
       {:phoenix, "~> 1.6.4"},
       {:plug_cowboy, "~> 2.5.2"},
       {:telemetry_metrics, "~> 0.6.1"},
-      {:telemetry_poller, "~> 1.0.0"}
+      {:telemetry_poller, "~> 1.0.0"},
+      {:timex, "~> 3.7.0"}
     ]
   end
 
