@@ -1,0 +1,15 @@
+<% gram_link = link "Gram", to: "https://orsinium.dev/", target: "_blank" %>
+<% offers_link = link "offers", to: Routes.live_path(@conn, ITJWeb.OffersLive) %>
+<main class="text-center fs-2">
+  <p>
+    ITJ is a job aggregator. The big idea is to aggregate <b>websites of individual
+    companies</b> rather than centralized boards and other aggregators.
+    The goal of the project is to foster web decentralization, privacy, and freedom.
+  </p>
+  <p>
+    Currently, we have <%= @offers_count %> <%= offers_link %> from <%= @companies_count %> companies.
+  </p>
+  <p>
+    Made with <i class="fas fa-heart text-danger"></i> by <%= gram_link %>.
+  </p>
+</main>

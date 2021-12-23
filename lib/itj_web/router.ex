@@ -18,6 +18,7 @@ defmodule ITJWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
+    get("/about", PageController, :about)
     live("/offers", OffersLive)
     live("/company/:domain", CompanyLive)
   end

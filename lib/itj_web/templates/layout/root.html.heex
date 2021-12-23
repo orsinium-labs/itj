@@ -21,7 +21,9 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
       <div class="container">
-        <a class="navbar-brand" href={Routes.page_path(@conn, :index)}>ITJ</a>
+        <a class="navbar-brand" href={Routes.page_path(@conn, :index)}>
+          ITJ
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -38,6 +40,11 @@
             <li class="nav-item">
               <a class="nav-link" href={Routes.live_path(@conn, ITJWeb.OffersLive)}>
                 offers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href={Routes.page_path(@conn, :about)}>
+                about
               </a>
             </li>
           </ul>
