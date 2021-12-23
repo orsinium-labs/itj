@@ -8,9 +8,13 @@ defmodule ITJ.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      # core
       ITJ.Repo,
+      {Task.Supervisor, name: ITJ.TaskSupervisor},
+
+      # web
       ITJWeb.Telemetry,
-      {Phoenix.PubSub, name: Itj.PubSub},
+      {Phoenix.PubSub, name: ITJ.PubSub},
       ITJWeb.Endpoint
     ]
 
