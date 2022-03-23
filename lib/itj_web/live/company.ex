@@ -15,7 +15,7 @@ defmodule ITJWeb.CompanyLive do
         preload: [offers: offers],
         order_by: [desc: offers.published_at]
       )
-      |> ITJ.Repo.get_by(domain: params["domain"])
+      |> ITJ.Repo.get_by!(domain: params["domain"])
 
     socket =
       socket

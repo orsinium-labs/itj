@@ -106,7 +106,7 @@ defmodule ITJ.Recruitee do
   Remove from the storage all offers for the given `company`
   that aren't listed in `current_offers`.
   """
-  def remove_outdated_offers(company, current_offers) when is_struct(company, ITJ.Company) do
+  def remove_outdated_offers(%ITJ.Company{} = company, current_offers) do
     current_urls = Enum.map(current_offers, & &1["url"])
 
     query =

@@ -7,6 +7,16 @@ defmodule ITJWeb.ErrorView do
   #   %{errors: %{detail: "Internal Server Error"}}
   # end
 
+  def render(_, %{reason: %Ecto.NoResultsError{}, conn: conn}) do
+    assigns = %{page_title: "Record not found", conn: conn}
+    Phoenix.View.render(ITJWeb.PageView, "error.html", assigns)
+  end
+
+  def render(_, %{reason: %Phoenix.Router.NoRouteError{}, conn: conn}) do
+    assigns = %{page_title: "Page not found", conn: conn}
+    Phoenix.View.render(ITJWeb.PageView, "error.html", assigns)
+  end
+
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.json" becomes
   # "Not Found".
