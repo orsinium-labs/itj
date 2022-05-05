@@ -7,7 +7,6 @@
 /.storage/
 /example/
 /priv/static/
-/rel/
 
 # files
 /.fetch
