@@ -1,6 +1,8 @@
 import Config
 
-config :itj, ITJ.Repo, database: "storage.db"
+config :itj, ITJ.Repo,
+  database: "storage.db",
+  socket_options: [:inet6]
 
 config :itj,
   ecto_repos: [ITJ.Repo]
