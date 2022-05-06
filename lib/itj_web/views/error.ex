@@ -21,6 +21,10 @@ defmodule ITJWeb.ErrorView do
   # the template name. For example, "404.json" becomes
   # "Not Found".
   def template_not_found(template, _assigns) do
-    %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
+    Phoenix.Controller.status_message_from_template(template)
+
+    # TODO: How does it get rendered? Why it fails with
+    # "protocol Phoenix.HTML.Safe not implemented for ... Map"?
+    # %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
 end

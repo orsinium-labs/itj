@@ -1,0 +1,26 @@
+# https://taskfile.dev
+version: '3'
+
+tasks:
+
+  # https://hexdocs.pm/phoenix/releases.html
+  build:prod:
+    desc: build prod release
+    env:
+      MIX_ENV: prod
+    cmds:
+      - mix deps.get --only prod
+      - mix compile
+      - mix assets.deploy
+      - mix release --overwrite
+
+  run:prod:
+    desc: run prod release locally
+    env:
+      SECRET_KEY_BASE:
+        sh: mix phx.gen.secret
+      PHX_HOST: localhost
+      PORT: "3111"
+      PHX_SERVER: "true"
+    cmds:
+      - ./_build/prod/rel/itj/bin/server
