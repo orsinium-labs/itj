@@ -5,6 +5,13 @@ import Config
 # system starts, so it is typically used to load production configuration
 # and secrets from environment variables or elsewhere. Do not define
 # any compile-time configuration in here, as it won't be applied.
+
+database_path = System.get_env("DATABASE_PATH") || "storage.db"
+
+config :itj, ITJ.Repo,
+  database: database_path,
+  socket_options: [:inet6]
+
 # The block below contains prod specific runtime configuration.
 if config_env() == :prod do
   if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
