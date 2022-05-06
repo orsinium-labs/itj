@@ -8,7 +8,7 @@ import Config
 # The block below contains prod specific runtime configuration.
 if config_env() == :prod do
   if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
-    config :itj, ITJ.Endpoint, server: true
+    config :itj, ITJWeb.Endpoint, server: true
   end
 
   # The secret key base is used to sign/encrypt cookies and other secrets.
@@ -33,14 +33,4 @@ if config_env() == :prod do
       port: port
     ],
     secret_key_base: secret_key_base
-
-  # ## Using releases
-  #
-  # If you are doing OTP releases, you need to instruct Phoenix
-  # to start each relevant endpoint:
-  #
-  #     config :itj, ITJWeb.Endpoint, server: true
-  #
-  # Then you can assemble a release by calling `mix release`.
-  # See `mix help release` for more information.
 end
