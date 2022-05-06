@@ -24,3 +24,11 @@ tasks:
       PHX_SERVER: "true"
     cmds:
       - ./_build/prod/rel/itj/bin/server
+
+  eval:prod:
+    desc: run a command on the prod release locally
+    env:
+      SECRET_KEY_BASE:
+        sh: mix phx.gen.secret
+    cmds:
+      - ./_build/prod/rel/itj/bin/itj eval {{.CLI_ARGS}}

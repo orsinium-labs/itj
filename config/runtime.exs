@@ -23,11 +23,11 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  # host = System.get_env("PHX_HOST") || "itj.orsinium.dev"
+  host = System.get_env("PHX_HOST") || "itj.orsinium.dev"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :itj, ITJWeb.Endpoint,
-    # url: [host: host, port: 443, scheme: "https"],
+    url: [host: host, port: 443, scheme: "https"],
     http: [
       ip: {127, 0, 0, 1},
       port: port
