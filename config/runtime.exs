@@ -34,7 +34,12 @@ if config_env() == :prod do
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :itj, ITJWeb.Endpoint,
-    url: [host: host, port: 443, scheme: "https"],
+    url: [host: host, port: 80, scheme: "http"],
+    check_origin: [
+      "//#{host}",
+      "//localhost",
+      "//localhost:#{port}"
+    ],
     http: [
       ip: {127, 0, 0, 1},
       port: port

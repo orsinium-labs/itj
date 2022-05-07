@@ -20,8 +20,9 @@ tasks:
       SECRET_KEY_BASE:
         sh: mix phx.gen.secret
       PHX_HOST: localhost
-      PORT: "3111"
+      PORT: "4000"
       PHX_SERVER: "true"
+      DATABASE_PATH: '{{.PWD}}/storage.db'
     cmds:
       - ./_build/prod/rel/itj/bin/server
 
