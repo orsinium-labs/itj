@@ -5,7 +5,7 @@ config :itj,
 
 config :itj, ITJWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: ITJWeb.ErrorView, accepts: ~w(json), layout: false],
+  render_errors: [view: ITJWeb.ErrorView, accepts: ~w(html), layout: false],
   pubsub_server: Itj.PubSub,
   live_view: [signing_salt: "GekFNg1H"]
 
