@@ -6,8 +6,7 @@ defmodule ITJWeb.OffersLive do
     Phoenix.View.render(ITJWeb.PageView, "offers.html", assigns)
   end
 
-  def mount(params, _session, socket) do
-    {:noreply, socket} = handle_params(params, nil, socket)
+  def mount(_params, _session, socket) do
     cities = from(offer in ITJ.Offer, select: offer.city, distinct: true) |> ITJ.Repo.all()
     socket = socket |> assign(:cities, cities) |> assign(:page_title, "Offers")
     {:ok, socket}
@@ -52,11 +51,7 @@ defmodule ITJWeb.OffersLive do
     query
   end
 
-  defp apply_title(query, %{"title" => ""}) do
-    query
-  end
-
-  defp apply_title(query, %{"title" => title}) do
+  defp apply_title(query, %{"title" => title}) when title != "" do
     title = Regex.replace(~r/[^a-zA-Z]+/, title, " ")
     title = Regex.replace(~r/\s+/, title, "%")
     where(query, [o], like(o.title, ^"%#{title}%"))
@@ -66,11 +61,7 @@ defmodule ITJWeb.OffersLive do
     query
   end
 
-  defp apply_city(query, %{"city" => ""}) do
-    query
-  end
-
-  defp apply_city(query, %{"city" => city}) do
+  defp apply_city(query, %{"city" => city}) when city != "" do
     where(query, city: ^city)
   end
 
