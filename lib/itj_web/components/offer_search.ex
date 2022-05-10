@@ -6,8 +6,9 @@ defmodule ITJWeb.Components.OfferSearch do
   end
 
   def handle_event("offer_search", %{"search" => search}, socket) do
+    search = search |> Map.filter(fn {_, v} -> v != "" end)
     path = ITJWeb.Router.Helpers.live_path(socket, ITJWeb.OffersLive, search)
-    socket = push_patch(socket, to: path)
+    socket = socket |> push_patch(to: path)
     {:noreply, socket}
   end
 end

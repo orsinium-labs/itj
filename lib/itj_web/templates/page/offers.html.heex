@@ -15,6 +15,7 @@
         id="pagination"
         page={get_page(@search)}
         last_page={length(@offers) < get_limit(@offers)}
+        search={@search}
       />
     </main>
   </div>
