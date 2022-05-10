@@ -8,7 +8,16 @@ defmodule ITJWeb.OffersLive do
 
   def mount(_params, _session, socket) do
     cities = from(offer in ITJ.Offer, select: offer.city, distinct: true) |> ITJ.Repo.all()
-    socket = socket |> assign(:cities, cities) |> assign(:page_title, "Offers")
+
+    countries =
+      from(offer in ITJ.Offer, select: offer.country_code, distinct: true) |> ITJ.Repo.all()
+
+    socket =
+      socket
+      |> assign(:cities, cities)
+      |> assign(:countries, countries)
+      |> assign(:page_title, "Offers")
+
     {:ok, socket}
   end
 
@@ -34,6 +43,7 @@ defmodule ITJWeb.OffersLive do
     query
     |> apply_remote(filters)
     |> apply_title(filters)
+    |> apply_country(filters)
     |> apply_city(filters)
     |> apply_limit(filters)
     |> apply_page(filters)
@@ -47,9 +57,7 @@ defmodule ITJWeb.OffersLive do
     where(query, remote: false)
   end
 
-  defp apply_remote(query, _) do
-    query
-  end
+  defp apply_remote(query, _), do: query
 
   defp apply_title(query, %{"title" => title}) when title != "" do
     title = Regex.replace(~r/[^a-zA-Z]+/, title, " ")
@@ -57,17 +65,19 @@ defmodule ITJWeb.OffersLive do
     where(query, [o], like(o.title, ^"%#{title}%"))
   end
 
-  defp apply_title(query, _) do
-    query
+  defp apply_title(query, _), do: query
+
+  defp apply_country(query, %{"country" => country}) when country != "" do
+    where(query, country_code: ^country)
   end
+
+  defp apply_country(query, _), do: query
 
   defp apply_city(query, %{"city" => city}) when city != "" do
     where(query, city: ^city)
   end
 
-  defp apply_city(query, _) do
-    query
-  end
+  defp apply_city(query, _), do: query
 
   defp apply_limit(query, search) do
     per_page = ITJWeb.PageView.get_limit(search)

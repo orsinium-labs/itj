@@ -28,6 +28,19 @@
 
     <.text_input
       form={search_form}
+      field={:country}
+      placeholder="country code"
+      value={Map.get(@search, "country")}
+      list="country_options"
+    />
+    <datalist id="country_options">
+      <%= for country <- @countries do %>
+        <option value={country}/>
+      <% end %>
+    </datalist>
+
+    <.text_input
+      form={search_form}
       field={:city}
       placeholder="city"
       value={Map.get(@search, "city")}
