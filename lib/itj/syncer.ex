@@ -25,8 +25,14 @@ defmodule ITJ.Syncer do
   end
 
   def sync(domains) do
-    Task.Supervisor.async_stream_nolink(ITJ.TaskSupervisor, domains, ITJ.Recruitee, :sync, [],
-      ordered: false
+    domains = Enum.shuffle(domains)
+
+    ITJ.TaskSupervisor
+    |> Task.Supervisor.async_stream_nolink(domains, ITJ.Recruitee, :sync, [],
+      ordered: false,
+      timeout: 10_000,
+      # on timeout, kill only the task, not everything
+      kill_task: true
     )
     |> Stream.run()
   end
