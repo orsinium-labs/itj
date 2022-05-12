@@ -21,6 +21,7 @@ defmodule ITJ.MixProject do
 
   defp deps do
     [
+      {:credo, "~> 1.6", only: :dev, runtime: false},
       {:date_time_parser, "~> 1.1.2"},
       {:ecto_sqlite3, "~> 0.7.1"},
       {:ecto, "~> 3.7.1"},

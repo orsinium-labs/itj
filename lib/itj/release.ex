@@ -28,8 +28,7 @@ defmodule ITJ.Release do
 
     stdout
     |> String.split()
-    |> Enum.filter(&(!ITJ.Company.get(&1)))
-    |> Enum.filter(&(&1 != "recruitee.com"))
+    |> Enum.filter(fn domain -> !ITJ.Company.get(domain) and domain != "recruitee.com" end)
     |> Enum.each(&add_domain/1)
   end
 
